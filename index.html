@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anniversary 💖</title>
-
 <style>
-body{margin:0;padding:0;font-family:'Arial',sans-serif;color:black;text-align:center;overflow-x:hidden;
+body{
+  margin:0;padding:0;font-family:'Arial',sans-serif;color:black;text-align:center;overflow-x:hidden;
   background:linear-gradient(135deg,#ff99cc,#ff66cc,#cc66ff);
-  background-size:400% 400%;animation:gradientBG 12s ease infinite;}
+  background-size:400% 400%;animation:gradientBG 12s ease infinite;
+}
 @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .stars{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;overflow:hidden;}
 .star{position:absolute;width:2px;height:2px;background:white;border-radius:50%;animation:twinkle 3s infinite;}
@@ -18,37 +19,54 @@ body{margin:0;padding:0;font-family:'Arial',sans-serif;color:black;text-align:ce
 #login-page input{padding:10px;border-radius:10px;border:none;margin:10px;font-size:16px;}
 #login-page button{padding:10px 20px;border:none;border-radius:20px;background:#ff66aa;color:white;cursor:pointer;font-size:16px;}
 
+#countdown-page{display:none;padding:20px;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  background: url('cat.jpg') center/cover no-repeat;
+  position:relative;
+}
 #main-page{display:none;padding:20px;}
-h1{font-size:2rem;}
-#timer{font-size:18px;margin:20px 0;}
 
-#slideshow{max-width:350px;margin:20px auto;position:relative;}
+h1{font-size:2rem;}
+#timer,#countdown-timer{font-size:18px;margin:20px 0;color:black; text-shadow: 1px 1px 4px black;}
+
+#slideshow{max-width:350px;margin:20px auto;position:relative; z-index:1;}
 #slideshow img{width:100%;border-radius:15px;display:none;}
 #slideshow img.active{display:block;}
 
-#music-container{margin-top:20px;}
+#music-container{margin-top:20px;position:relative; z-index:10;}
 #music-btn{padding:10px 20px;border:none;border-radius:20px;background:#ff66aa;color:white;font-size:16px;cursor:pointer;margin-bottom:10px;}
 #music-slider{width:80%;margin:10px auto;display:block;}
-</style> 
+</style>
 </head>
 <body>
 <div class="stars"></div>
 
+<!-- หน้าล็อกอิน -->
 <div id="login-page">
-<h2>🔒 กรุณาใส่รหัสวันครบรอบน่ะหยิ่ง</h2>
+<h2>🔒 กรุณาใส่รหัสวันครบรอบ</h2>
 <input type="password" id="password" placeholder="ใส่รหัสเช่น 14091999">
 <button onclick="checkPassword()">เข้าสู่เว็บไซต์</button>
 <p id="error-msg" style="color: yellow;"></p>
 </div>
 
-<div id="main-page">
-<h1>Happy Anniversary💕</h1>
-2 year 3 months
-🥰28/08/68🥰
-<div id="timer"></div>
-<h2>📸 ความทรงจำของเรา</h2>
-    <div class="slideshow" id="slideshow"></div>
+<!-- หน้านับถอยหลังเปิดเว็บไซต์ -->
+<div id="countdown-page">
+<h2>⏳ เว็บไซต์จะเปิดในอีก...</h2>
+<p>🎵(ฟังเพลงไปก่อนน่ะจุ๊บ)</p>
+<div id="countdown-timer"></div>
+<div id="music-container">
+<button id="music-btn" onclick="toggleMusic()">▶️ เปิดเพลง</button>
+<input type="range" id="music-slider" min="0" max="100" value="0">
+</div>
+<audio id="bg-music"></audio>
+</div>
 
+<!-- หน้าเว็บจริง -->
+<div id="main-page">
+<h1 style="position:relative; z-index:10;">Happy Anniversary💕</h1>
+<p style="position:relative; z-index:10;">2 ปี 3 เดือน 🥰28/08/68🥰</p>
+<div id="timer" style="position:relative; z-index:10;"></div>
+
+<h2 style="position:relative; z-index:10;">📸 ความทรงจำของเรา</h2>
 <div id="slideshow">
 <img src="pic1.jpg" class="active">
 <img src="pic2.jpg">
@@ -63,13 +81,11 @@ h1{font-size:2rem;}
 <img src="pic11.jpg">
 </div>
 
-<!-- 🎵 เพลง + ตัวเลื่อน -->
 <div id="music-container">
-<button id="music-btn" onclick="toggleMusic()">▶️ เปิดเพลง</button>
-<input type="range" id="music-slider" min="0" max="100" value="0">
+<button id="music-btn2" onclick="toggleMusicMain()">▶️ เปิดเพลง</button>
+<input type="range" id="music-slider2" min="0" max="100" value="0">
 </div>
-
-<audio id="bg-music"></audio>
+<audio id="bg-music2"></audio>
 </div>
 
 <script>
@@ -78,24 +94,55 @@ function checkPassword(){
   const pass=document.getElementById("password").value;
   if(pass==="28052023"){
     document.getElementById("login-page").style.display="none";
-    document.getElementById("main-page").style.display="block";
+    startCountdown();
   }else{
     document.getElementById("error-msg").innerText="❌ รหัสไม่ถูกต้อง";
   }
 }
 
-/* 💖 Timer */
-function updateTimer(){
-  const startDate=new Date("2023-05-28T00:00:00");
-  const now=new Date();
-  const diff=now-startDate;
-  const days=Math.floor(diff/(1000*60*60*24));
-  const hours=Math.floor((diff/(1000*60*60))%24);
-  const minutes=Math.floor((diff/(1000*60))%60);
-  const seconds=Math.floor((diff/1000)%60);
-  document.getElementById("timer").innerText=`เราคบกันมาแล้ว ${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที 💖`;
+/* ⏳ นับถอยหลังเปิดเว็บจริง */
+function startCountdown(){
+  const countdownPage=document.getElementById("countdown-page");
+  const mainPage=document.getElementById("main-page");
+  const countdownTimer=document.getElementById("countdown-timer");
+
+  countdownPage.style.display="flex";
+
+  const targetTime=new Date("2025-08-28T00:00:00").getTime(); 
+  
+  const interval=setInterval(()=>{
+    const now=new Date().getTime();
+    const diff=targetTime-now;
+    if(diff<=0){
+      clearInterval(interval);
+      countdownPage.style.display="none";
+      stopCountdownMusic(); // หยุดเพลงหน้านับถอยหลัง
+      mainPage.style.display="block";
+      startTimer();
+    }else{
+      const days=Math.floor(diff/(1000*60*60*24));
+      const hours=Math.floor((diff/(1000*60*60))%24);
+      const minutes=Math.floor((diff/(1000*60))%60);
+      const seconds=Math.floor((diff/1000)%60);
+      countdownTimer.innerText=`${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที`;
+    }
+  },500);
 }
-setInterval(updateTimer,1000);
+
+/* 💖 นับวันครบรอบ */
+function startTimer(){
+  const startDate=new Date("2023-05-28T00:00:00");
+  const timerDiv=document.getElementById("timer");
+  setInterval(()=>{
+    const now=new Date();
+    const diff=now-startDate;
+    const days=Math.floor(diff/(1000*60*60*24));
+    const hours=Math.floor((diff/(1000*60*60))%24);
+    const minutes=Math.floor((diff/(1000*60))%60);
+    const seconds=Math.floor((diff/1000)%60);
+    timerDiv.innerText=`เราคบกันมาแล้ว ${days} วัน ${hours} ชั่วโมง ${minutes} นาที ${seconds} วินาที 💖`;
+  },1000);
+}
 
 /* 📸 สไลด์โชว์ */
 let slideIndex=0;
@@ -108,15 +155,14 @@ function showSlides(){
 }
 setInterval(showSlides,3000);
 
-/* 🎵 เพลงหลายเพลง + เลื่อนเวลา */
-const songs=["Song12.mp3"];
+/* 🎵 เพลงหน้านับถอยหลัง */
+const songs=["Baby.mp3"];
 let songIndex=0;
 const music=document.getElementById("bg-music");
 const musicBtn=document.getElementById("music-btn");
 const slider=document.getElementById("music-slider");
 let isPlaying=false;
 
-// เล่นเพลงต่อเพลง
 music.src=songs[songIndex];
 music.addEventListener("ended",()=>{
   songIndex=(songIndex+1)%songs.length;
@@ -124,10 +170,8 @@ music.addEventListener("ended",()=>{
   music.play();
 });
 
-// ปุ่มเปิด/ปิดเพลง
 function toggleMusic(){
   if(!isPlaying){
-    music.muted=false;
     music.play();
     musicBtn.innerText="⏸️ ปิดเพลง";
     isPlaying=true;
@@ -138,18 +182,52 @@ function toggleMusic(){
   }
 }
 
-// อัปเดตตัวเลื่อนขณะเล่นเพลง
+function stopCountdownMusic(){
+  music.pause();
+  music.currentTime=0;
+  isPlaying=false;
+  musicBtn.innerText="▶️ เปิดเพลง";
+}
+
 music.addEventListener("timeupdate",()=>{
-  if(music.duration){
-    slider.value=(music.currentTime/music.duration)*100;
-  }
+  if(music.duration) slider.value=(music.currentTime/music.duration)*100;
+});
+slider.addEventListener("input",()=>{
+  if(music.duration) music.currentTime=(slider.value/100)*music.duration;
 });
 
-// เลื่อนเพลงตาม slider
-slider.addEventListener("input",()=>{
-  if(music.duration){
-    music.currentTime=(slider.value/100)*music.duration;
+/* 🎵 เพลงหน้าเว็บจริง */
+const songs2=["Love.mp3"];
+let songIndex2=0;
+const music2=document.getElementById("bg-music2");
+const musicBtn2=document.getElementById("music-btn2");
+const slider2=document.getElementById("music-slider2");
+let isPlaying2=false;
+
+music2.src=songs2[songIndex2];
+music2.addEventListener("ended",()=>{
+  songIndex2=(songIndex2+1)%songs2.length;
+  music2.src=songs2[songIndex2];
+  music2.play();
+});
+
+function toggleMusicMain(){
+  if(!isPlaying2){
+    music2.play();
+    musicBtn2.innerText="⏸️ ปิดเพลง";
+    isPlaying2=true;
+  }else{
+    music2.pause();
+    musicBtn2.innerText="▶️ เปิดเพลง";
+    isPlaying2=false;
   }
+}
+
+music2.addEventListener("timeupdate",()=>{
+  if(music2.duration) slider2.value=(music2.currentTime/music2.duration)*100;
+});
+slider2.addEventListener("input",()=>{
+  if(music2.duration) music2.currentTime=(slider2.value/100)*music2.duration;
 });
 
 /* ⭐ ดาว */
