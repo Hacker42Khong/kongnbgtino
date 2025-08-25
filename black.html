@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>หน้าพิเศษ 💎</title>
+<style>
+body {
+  margin: 0; padding: 0;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg,#99ccff,#6699ff);
+  color: deeppink;
+  height: 100vh; display: flex;
+  flex-direction: column; justify-content: center; align-items: center;
+
+ /* --- ใส่รูปพื้นหลัง --- */
+  background: url('cat.jpg') no-repeat center center fixed;
+  background-size: cover; /* ทำให้รูปเต็มจอ */
+}
+ h1 { color: deeppink; } 
+}
+input[type="password"] {
+  width: 250px;
+  padding: 20px 15px;
+  border: 2px solid #fff;
+  border-radius:10px;
+  outline: none;
+  font-size: 18px;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: 0.3s;
+}
+input[type="password"]:focus {
+      border-color: deeppink;
+      box-shadow: 0 0 10px deeppink;
+    }
+button {
+  padding: 10px 20px; border: none; border-radius: 20px;
+  background: deeppink; color: whitesmoke; cursor: pointer; font-size: 16px;
+}
+#error-msg { color: yellow; margin-top: 10px; }
+#secret-content { display: none; margin-top: 20px; }
+a.back { color: yellow; text-decoration: none; margin-top: 20px; display:inline-block; }
+
+</style>
+</head>
+<body>
+  <h2>🔒 คำถาม=หน้าเมื่อกี้มีกี่รูป
+                 👇
+  </h2>
+  <input type="password" id="password" placeholder="ใส่เป็นตัวเลข=">
+  <button onclick="checkPassword()">เข้าสู่หน้าพิเศษ</button>
+  <p id="error-msg"></p>
+
+  <div id="secret-content">
+    <h1>🎉 ยินดีต้อนรับสู่หน้าพิเศษ 💖</h1>
+    <p>ไม่มีไรหรอกแค่อยากให้ดูทุกรูป😘
+    รักน่ะคร้าบ♥️</p>
+    <a href="ตัวแก้ไข12index.html" class="back">⬅ กลับหน้าแรก</a>
+  </div>
+
+<script>
+function checkPassword() {
+  const pass = document.getElementById("password").value;
+  if (pass === "18") { // ตั้งรหัสของหน้านี้ที่ต้องการ
+    document.querySelector("h2").style.display = "none";
+    document.querySelector("input").style.display = "none";
+    document.querySelector("button").style.display = "none";
+    document.getElementById("error-msg").style.display = "none";
+    document.getElementById("secret-content").style.display = "block";
+  } else {
+    document.getElementById("error-msg").innerText = "❌ รหัสไม่ถูกต้อง!";
+  }
+}
+</script>
+</body>
+</html>
