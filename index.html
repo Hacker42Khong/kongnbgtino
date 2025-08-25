@@ -6,9 +6,11 @@
 <title>Anniversary 💖</title>
 <style>
 body{
-  margin:0;padding:0;font-family:'Arial',sans-serif;color:black;text-align:center;overflow-x:hidden;
-  background:linear-gradient(135deg,#ff99cc,#ff66cc,#cc66ff);
-  background-size:400% 400%;animation:gradientBG 12s ease infinite;
+  margin:0;padding:0;font-family:'Arial',sans-serif;color:hotpink;text-align:center;overflow-x:hidden;
+   /* --- ใส่รูปพื้นหลัง --- */
+  background: url('cat.jpg') no-repeat center center fixed;
+  background-size: cover; /* ทำให้รูปเต็มจอ */
+}
 }
 @keyframes gradientBG{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .stars{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;overflow:hidden;}
@@ -26,7 +28,7 @@ body{
 #main-page{display:none;padding:20px;}
 
 h1{font-size:2rem;}
-#timer,#countdown-timer{font-size:18px;margin:20px 0;color:black; text-shadow: 1px 1px 4px black;}
+#timer,#countdown-timer{font-size:18px;margin:20px 0;color:hotpink; text-shadow: 1px 1px 4px black;}
 
 #slideshow{max-width:350px;margin:20px auto;position:relative; z-index:1;}
 #slideshow img{width:100%;border-radius:15px;display:none;}
@@ -44,7 +46,7 @@ h1{font-size:2rem;}
 <div id="login-page">
 <h2>🔒 กรุณาใส่รหัสวันครบรอบ</h2>
 <input type="password" id="password" placeholder="ใส่รหัสเช่น 14091999">
-<button onclick="checkPassword()">เข้าสู่เว็บไซต์</button>
+<button onclick="checkPassword()">👉เข้าสู่เว็บไซต์👈</button>
 <p id="error-msg" style="color: yellow;"></p>
 </div>
 
@@ -67,6 +69,7 @@ h1{font-size:2rem;}
 <div id="timer" style="position:relative; z-index:10;"></div>
 
 <h2 style="position:relative; z-index:10;">📸 ความทรงจำของเรา</h2>
+(เปิดเพลงข้างล่างรูป👇)
 <div id="slideshow">
 <img src="pic1.jpg" class="active">
 <img src="pic2.jpg">
@@ -79,12 +82,25 @@ h1{font-size:2rem;}
 <img src="pic9.jpg">
 <img src="pic10.jpg">
 <img src="pic11.jpg">
+<img src="pic12.jpg">
+<img src="pic13.jpg">
+<img src="pic14.jpg">
+<img src="pic15.jpg">
+<img src="pic16.jpg">
+<img src="pic17.jpg">
+<img src="pic18.jpg">
 </div>
 
 <div id="music-container">
-<button id="music-btn2" onclick="toggleMusicMain()">▶️ เปิดเพลง</button>
+<button id="music-btn" onclick="toggleMusicMain()">▶️ เปิดเพลง</button>
+
 <input type="range" id="music-slider2" min="0" max="100" value="0">
-</div>
+</div>  <!-- วางใน div id="main-page" ตรงที่ต้องการ -->
+<a href="15index.html" 
+   style="display:inline-block; margin-top:20px; color:white; background:#ff66aa;
+          padding:10px 20px; border-radius:20px; text-decoration:none;">
+  ไปหน้าพิเศษ👉
+</a>
 <audio id="bg-music2"></audio>
 </div>
 
